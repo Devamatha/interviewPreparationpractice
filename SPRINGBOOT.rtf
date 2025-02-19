@@ -1,0 +1,240 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fnil\fcharset1 Segoe UI Symbol;}{\f2\fnil\fcharset1 Cambria Math;}{\f3\fnil\fcharset0 Segoe UI Symbol;}{\f4\fnil Segoe UI Symbol;}{\f5\fnil Cambria Math;}{\f6\fnil\fcharset0 Cambria Math;}{\f7\fnil\fcharset2 Symbol;}}
+{\colortbl ;\red255\green0\blue0;\red192\green80\blue77;\red51\green51\blue51;\red0\green0\blue0;\red0\green0\blue255;}
+{\*\generator Riched20 10.0.19041}{\*\mmathPr\mmathFont2\mwrapIndent1440 }\viewkind4\uc1 
+\pard\li2160\sa200\sl276\slmult1\cf1\ul\b\f0\fs40\lang9 Spring Preparation Notes\par
+
+\pard\sa200\sl276\slmult1\cf2\ulnone\fs28 1.What does the @SpringBootApplication annotation do internally?\par
+\cf3 A\fs22 . \fs24 @SpringBootApplication \b0 = @Configuration +@EnableAutoConfiguration +      @ComponentScan.\par
+\b @Configuration \b0 - Marks the class as a Spring configuration class.\par
+\b @EnableAutoConfiguration \b0 - Without @EnableAutoConfiguration, you would have to manually configure DataSource, EntityManager, TransactionManager, etc.\par
+With @EnableAutoConfiguration, all of these are auto-configured based on the dependencies present.\par
+\b @ComponentScan \b0 - Scans for Spring components (@Component, @Service, @Repository, @Controller, etc.) in the same package and its subpackages.\par
+\cf1\b\fs28 Example:\b0\par
+\cf4\fs24 import org.springframework.boot.SpringApplication;\par
+import org.springframework.boot.autoconfigure.SpringBootApplication;\par
+@SpringBootApplication\par
+public class \b MyApplication \b0\{\par
+    public static void main(String[] args) \{\par
+        SpringApplication.run(MyApplication.class, args);\par
+    \}\par
+\}\par
+\cf2\b\fs28 2.Explain @RestController annotation in Spring Boot?\par
+\cf0\fs24 A.@RestController\b0 =@Responsebody+@Controller\par
+\b @Controller \b0 - Marks the class as a Spring MVC controller.\par
+\b @ResponseBody \b0 - Ensures that the returned data is automatically serialized into JSON/XML instead of returning a view.\par
+\cf2\b\fs28 3.Explain @Controller annotation in Spring Boot?\par
+\cf0\fs24 A.\b0 The @Controller annotation is used in Spring MVC applications where the response should be an HTML view, not JSON\par
+\cf2\b\fs28 4.What are the major differences between @RequestMapping and    @GetMapping?\cf0\fs22\par
+\fs24 A.@\ul RequestMapping\ulnone :\b0 Can handle multiple HTTP methods (GET, POST, PUT, DELETE, PATCH, etc.).\par
+Needs method = RequestMethod.GET to specify GET requests.More flexible, but requires extra configuration.\par
+\b  @RequestMapping(value = "/all", method = RequestMethod.GET)\par
+\ul @GetMapping:\ulnone\b0 Handles only GET requests.No need to specify method (default is GET)\par
+    \cf1 Ex:\cf0 @GetMapping("/all")\par
+\cf2\b\fs28 5.What is the use of profiles in Spring Boot?\par
+\cf0\fs24 A.\b0 Profiles in Spring Boot allow you to define different configurations for different environments (e.g., development, testing, production). This helps manage environment-specific settings like database URLs, API keys, logging levels, etc.\par
+\cf2\b\fs28 6.How to create a profiles in spring Boot?\par
+\cf0\b0\fs24 A.Using application.properties\par
+You can create separate property files for each profile:\par
+\b 1.application-dev.properties\par
+\b0 server.port=8081\par
+\b 2.application-test.properties\par
+\b0 server.port=8082\par
+\b 3.application-prod.properties\par
+\b0 server.port=8083\par
+in the main application.properties  \par
+ Activate a profile in:\b spring.profiles.active=dev\par
+\b0 You can use @Profile to enable beans based on the active profile.\par
+\b @Profile("dev")\par
+\cf2\fs28 6. When to Use Profiles?\par
+\cf0\b0\f1\fs24\u10004?\f0  Different Databases for Dev, Test, and Production.\par
+\f1\u10004?\f0  Logging Levels (DEBUG in Dev, ERROR in Prod).\par
+\f1\u10004?\f0  Feature Toggles (Enable/Disable certain features per environment).\par
+\f1\u10004?\f0  Third-Party Integrations (Different API URLs for each environment).\par
+\cf2\b\fs28 7.what is spring boot ?why did you use springbot in your are project ?why not spring ?\par
+\cf0\fs24 A.What is Spring Boot?\par
+\b0 Spring Boot is an extension of the Spring Framework designed to make it easier to develop, configure, and deploy standalone, production-ready applications with minimal configuration.\par
+\cf2 Key Features of Spring Boot:\par
+\cf0\b Auto-Configuration \b0\f2\u8594?\f0  Automatically configures Spring components based on classpath dependencies.\par
+\b Standalone Applications \b0\f2\u8594?\f0  No need to deploy to external servers; comes with an embedded Tomcat, Jetty, or Undertow server.\par
+\b Microservices Ready \b0\f2\u8594?\f0  Ideal for building REST APIs and microservices.\par
+\b Spring Boot Starters \b0\f2\u8594?\f0  Pre-configured templates for commonly used functionalities like Spring Boot Web, Security, Data JPA, etc.\par
+\b Simplified Dependency Management \b0\f2\u8594?\f0  Uses spring-boot-starter-* dependencies for easy setup.\par
+\b Actuator\b0  \f2\u8594?\f0  Provides production-ready monitoring and management endpoints.\cf2\b\lang9\par
+\fs28 Why not spring?\par
+
+\pard{\pntext\f7\'B7\tab}{\*\pn\pnlvlblt\pnf7\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\cf0\b0\fs24 Requires extensive XML/Java-based configuration.\par
+{\pntext\f7\'B7\tab}Needs an external Tomcat or Jetty setup.\par
+{\pntext\f7\'B7\tab}Manually manage dependencies.\par
+{\pntext\f7\'B7\tab}Requires explicit configurations.\par
+{\pntext\f7\'B7\tab}Requires WAR packaging for servers\tab .\par
+
+\pard\sa200\sl276\slmult1\cf2\b\fs28 8.What is RAD (Rapid Application Development)?\par
+\cf0\b0\fs24 How Does Spring Boot Enable RAD? \par
+Spring Boot is **built for RAD** because it removes boilerplate code and provides **auto-configuration** and **pre-built components** to speed up development.\par
+Key Features of Spring Boot for RAD**  \par
+1. \b Auto-Configuration\b0  \f2\u8594?\f0  Spring Boot automatically configures your application based on dependencies, reducing manual setup.  \par
+2. \b Embedded Web Server\b0  \f2\u8594?\f0  No need for external Tomcat; just run `java -jar myapp.jar`.  \par
+3. \b Spring Boot Starters\b0  \f2\u8594?\f0  Pre-configured dependency sets (`spring-boot-starter-web`, `spring-boot-starter-data-jpa`, etc.).  \par
+4. \b Spring Initializr\b0  \f2\u8594?\f0  Generates a ready-to-run Spring Boot project in seconds.  \par
+5. \b Spring DevTools\b0  \f2\u8594?\f0  Enables automatic app reloads and speeds up development.  \par
+6. \b Microservices-Friendly\b0  \f2\u8594?\f0  Easily develop scalable and independent services.  \par
+\f1\u10004?\f0  No XML Configuration Needed.\par
+\f1\u10004?\f0  Auto-configured Embedded Server (Tomcat).\par
+\f1\u10004?\f0  Minimal Code, Maximum Productivity\f3\lang1033 .\par
+\par
+\cf2\b\fs28 9.can we override or replace the embedded tomacat server in springboot?\par
+\cf0\b0\fs24 A.Yes, you can override or replace the embedded Tomcat server in Spring Boot with other servlet containers, such as Jetty or Undertow.\par
+Spring Boot uses Tomcat by default, but you can easily switch to other containers by excluding Tomcat and adding the dependency for the one you want to use.\par
+\b 1. Replace Tomcat with Jetty\par
+\b0 Step 1: Exclude Tomcat dependency\par
+In your pom.xml, exclude the default Tomcat server:\par
+\b\f0 <dependency>\par
+    <groupId>org.springframework.boot</groupId>\par
+    <artifactId>spring-boot-starter-web</artifactId>\par
+    <exclusions>\par
+        <exclusion>\par
+            <groupId>org.springframework.boot</groupId>\par
+            <artifactId>spring-boot-starter-tomcat</artifactId>\par
+        </exclusion>\par
+    </exclusions>\par
+</dependency>\par
+\b0\f3 Step 2: Add Jetty dependency\par
+Then, add the Jetty dependency to your pom.xml:\par
+\b\f0 <dependency>\par
+    <groupId>org.springframework.boot</groupId>\par
+    <artifactId>spring-boot-starter-jetty</artifactId>\par
+</dependency>\par
+\cf2\fs28 10.can we disable the defalut web servers in the springboot?\par
+\cf0\b0\fs24 Yes, you can disable the default embedded web server in Spring Boot if your application does not need a web server.\par
+spring.main.web-application-type=NONE\par
+\cf2\fs28 11.How to disable a specific auto-configuration class\par
+\cf0\fs24 In Spring Boot, you can disable specific auto-configuration classes to prevent them from being applied to your application.\par
+To disable a specific auto-configuration class, you can use the \b @EnableAutoConfiguration \b0 or \b @SpringBootApplication \b0 annotation with the exclude attribute, or you can use the spring.autoconfigure.exclude property in the application.properties or application.yml file.\par
+\b @SpringBootApplication(exclude = \{DataSourceAutoConfiguration.class\})spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration\b0\par
+3. List of Common Auto-Configuration Classes to Exclude:\par
+\b DataSourceAutoConfiguration\b0 : Excludes the auto-configuration for a DataSource, useful if you're not using a database.\par
+\b JpaRepositoriesAutoConfiguration\b0 : Excludes auto-configuration for JPA repositories.\par
+HibernateJpaAutoConfiguration: Excludes auto-configuration for Hibernate JPA.\par
+\b TomcatAutoConfiguration\b0 : Excludes the embedded Tomcat server.\par
+\b SecurityAutoConfiguration\b0 : Excludes Spring Security auto-configuration if you're not using Spring Security.\par
+\b RabbitAutoConfiguration\b0 : Excludes RabbitMQ auto-configuration if you're not using RabbitMQ.\par
+\cf2\fs28 12.How to use a property  defined in application.properites file into your java class?\par
+\cf0\fs24 In Spring Boot, you can use properties defined in the application.properties or application.yml file within your Java class in several ways.\par
+\cf2 application.properties\par
+\cf0 app.details.name=MyApp\par
+app.details.version=2.0\par
+app.details.author=John Doe\par
+\par
+1\cf2 .@Value("$\{property.name\}"):\cf0 Fetching a single property.\par
+2\cf2 .@ConfigurationProperties(prefix = "app.details"):\cf0 Fetching multiple related properties.\par
+3.\cf2 System.getProperty():\cf0 Accessing system properties.\par
+\par
+\cf2\b\fs28 13.How to add acutors in spring boot ?\par
+\cf0\b0\fs24 Spring Boot Actuator provides \b production-ready features\b0  such as monitoring, health checks, and metrics. It allows you to monitor and manage your application through various endpoints.\par
+\b <dependency>\par
+    <groupId>org.springframework.boot</groupId>\par
+    <artifactId>spring-boot-starter-actuator</artifactId>\par
+</dependency>\par
+management.endpoints.web.exposure.include=*\cf2\fs28\par
+{\cf0\b0\fs24{\field{\*\fldinst{HYPERLINK http://localhost:8080/actuator:Lists }}{\fldrslt{http://localhost:8080/actuator:Lists\ul0\cf0}}}}\cf0\b0\f0\fs24 : all available actuator endpoints.\par
+{{\field{\*\fldinst{HYPERLINK http://localhost:8080/actuator/health }}{\fldrslt{http://localhost:8080/actuator/health\ul0\cf0}}}}\f0\fs24 : Shows application health status.\par
+{{\field{\*\fldinst{HYPERLINK http://localhost:8080/actuator/info }}{\fldrslt{http://localhost:8080/actuator/info\ul0\cf0}}}}\f0\fs24 : Shows custom application info.\par
+{{\field{\*\fldinst{HYPERLINK http://localhost:8080/actuator/metrics }}{\fldrslt{http://localhost:8080/actuator/metrics\ul0\cf0}}}}\f0\fs24 : Shows available metrics.\par
+{{\field{\*\fldinst{HYPERLINK http://localhost:8080/actuator/env }}{\fldrslt{http://localhost:8080/actuator/env\ul0\cf0}}}}\f0\fs24 : Shows environment properties.\par
+{{\field{\*\fldinst{HYPERLINK http://localhost:8084/actuator/mappings }}{\fldrslt{http://localhost:8084/actuator/mappings\ul0\cf0}}}}\f0\fs24 : show the all the api urls and method names.\par
+\cf2\b\fs28 14.How to enable httpTrace in acurators?.\par
+application.properties file:-\par
+\cf0\b0\fs24 management.endpoints.web.exposure.include=httptrace\cf2\b\fs28\par
+\cf0\b0\fs24 Add HttpTraceRepository Bean\par
+Since Spring Boot 2.2, httptrace requires an explicit bean to store HTTP trace data. You need to configure an HttpTraceRepository.\par
+Using In-Memory Storage (Simple)\par
+Create a configuration class:\par
+\par
+\b import org.springframework.boot.actuate.trace.http.HttpTraceRepository;\par
+import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository;\par
+import org.springframework.context.annotation.Bean;\par
+import org.springframework.context.annotation.Configuration;\par
+@Configuration\par
+public class HttpTraceConfig \{\par
+    @Bean\par
+    public HttpTraceRepository httpTraceRepository() \{\par
+        return new InMemoryHttpTraceRepository();\par
+    \}\par
+\}\par
+\cf2\fs28 15.steps to deploy the spring boot web application as jar and war?\par
+\cf0\b0\fs24 Deploying a Spring Boot Web Application as JAR and WAR\par
+Spring Boot applications can be packaged as either JAR (standalone) or WAR (deployable on a servlet container like Tomcat). Below are the steps to package and deploy both formats.\par
+\b 1. Prerequisites\par
+\b0\f1\u9989?\f0  Installed JDK 8+\par
+\f1\u9989?\f0  Installed Maven/Gradle\par
+\f1\u9989?\f0  Installed Spring Boot (if using CLI)\par
+\f1\u9989?\f0  A Spring Boot project with spring-boot-starter-web dependency\par
+2. Package as a JAR\par
+\b\f4 Step 1: Configure pom.xml\par
+\b0 Ensure you have the Spring Boot Maven plugin in pom.xml:\par
+\f0 <properties>\par
+    <java.version>17</java.version>\par
+</properties>\par
+<dependencies>\par
+    <dependency>\par
+        <groupId>org.springframework.boot</groupId>\par
+        <artifactId>spring-boot-starter-web</artifactId>\par
+    </dependency>\par
+</dependencies>\par
+<build>\par
+    <plugins>\par
+        <plugin>\par
+            <groupId>org.springframework.boot</groupId>\par
+            <artifactId>spring-boot-maven-plugin</artifactId>\par
+        </plugin>\par
+    </plugins>\par
+</build>\par
+\b Step 2: Build JAR File\par
+\b0 Run the following Maven command:\par
+\b mvn clean package\par
+\b0 This generates a JAR file in:\par
+\b target/myapp-0.0.1-SNAPSHOT.jar\par
+3. Package as a WAR\par
+\b0 If you want to deploy in Tomcat or another servlet container, package the application as a WAR file.\b\par
+Step 1: Modify pom.xml\par
+Update the packaging type:\par
+\b0 <packaging>war</packaging>\par
+<dependency>\par
+    <groupId>org.springframework.boot</groupId>\par
+    <artifactId>spring-boot-starter-web</artifactId>\par
+</dependency>\par
+<dependency>\par
+    <groupId>org.springframework.boot</groupId>\par
+    <artifactId>spring-boot-starter-tomcat</artifactId>\par
+    <scope>provided</scope>\par
+</dependency>\par
+\b mvn clean package\par
+\cf2\fs28 16.Advantages of YAML file over Properities file?\par
+\cf0\b0\fs24 1.more clarity and better readability.\par
+2.perfect for hierarachical  configuration data ,which aslo represented in a better ,more readble format.\par
+3.suppoirts for maps lists and scalr types.\par
+\cf2\b\fs28 17.Difference Between REST and RESTful Web Service ?.\cf0\b0\par
+\b Rest\b0 :\b REST (Representational State Transfer).\par
+\b0\fs24 REST is a set of rules for building APIs but not an actual implementation.REST itself does not enforce a format, but APIs commonly use JSON or XML.\tab\fs28\par
+\b RESTful web service \b0 :RESTful web service is an API that follows REST principles.\par
+\fs24 A RESTful web service is an implementation of REST using web technologies like Spring Boot, Node.js, Django, etc.RESTful APIs typically use JSON, but can support XML, YAML, or other formats.\cf2\b\fs28\par
+18.REST Resources in a Web Service?\par
+\cf0\b0\fs24 In REST (Representational State Transfer), a resource is any entity or object that can be identified, manipulated, and transferred over the network. A REST resource is represented by a URI (Uniform Resource Identifier) and can be accessed using HTTP methods like \b GET\b0 , \b POST\b0 , \b PUT\b0 , and \b DELETE\b0 .\b\par
+\cf2\fs28 19.What is a URI (Uniform Resource Identifier)?\par
+\cf0\b0\fs24 A URI (Uniform Resource Identifier) is a string that uniquely identifies a resource on the internet or within a system. \par
+{{\field{\*\fldinst{HYPERLINK https://www.example.com/users/1 }}{\fldrslt{https://www.example.com/users/1\ul0\cf0}}}}\f0\fs24\par
+https:// \f2\u8594? Protocol\par
+{{\field{\*\fldinst{HYPERLINK www.example.com }}{\fldrslt{www.example.com\ul0\cf0}}}}\f5\fs24  \f2\u8594? Domain\par
+/users/1 \u8594? Path to the resource\par
+\par
+\cf2\b\f6\fs28\lang1033 20.\f5 What is the Need for Project Lombok?\par
+\cf0\b0\fs24 Project Lombok is a Java library that helps reduce boilerplate code by automatically generating getters, setters, constructors, and other common methods at compile-time using annotations.\par
+\cf2\b\f0\fs28\par
+\cf0\b0\fs24\par
+\par
+\cf2\fs28\par
+\cf0\fs24\par
+\par
+\cf2\b\fs28\par
+}
+ 
